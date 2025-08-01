@@ -10,7 +10,7 @@ use Filament\Resources\Pages\Page;
 class ViewAttachments extends Page
 {
     protected static string $resource = DocumentResource::class;
-    protected static string $view = 'filament.pages.view-attachment';
+    protected static string $view = 'filament.documents.view-attachment';
     protected static ?string $title = 'عرض المرفقات';
     public ?Document $document = null;
 

@@ -17,7 +17,7 @@ class IncomingResource extends Resource
     public static ?string $label = 'رسالة';
     public static ?string $pluralLabel = 'البريد الوارد';
     protected static ?string $model = Incoming::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-document-arrow-down';
 
     public static function form(Form $form): Form
     {
@@ -106,10 +106,6 @@ class IncomingResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\Action::make('view_attachments')
-                    ->label('عرض المستندات')
-                    ->icon('heroicon-o-eye')
-                    ->url(fn($record) => static::getUrl('view-attachments', ['record' => $record])),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -132,7 +128,6 @@ class IncomingResource extends Resource
             'index' => Pages\ListIncomings::route('/'),
             'create' => Pages\CreateIncoming::route('/create'),
             'edit' => Pages\EditIncoming::route('/{record}/edit'),
-            'view-attachments' => Pages\ViewAttachments::route('/{record}/attachments'),
         ];
     }
 }

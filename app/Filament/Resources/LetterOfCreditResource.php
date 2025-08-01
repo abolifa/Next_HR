@@ -17,7 +17,7 @@ class LetterOfCreditResource extends Resource
     public static ?string $label = 'إعتماد';
     public static ?string $pluralLabel = 'الإعتمادات المستندية';
     protected static ?string $model = LetterOfCredit::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'fas-money-bill-wave';
 
     public static function form(Form $form): Form
     {

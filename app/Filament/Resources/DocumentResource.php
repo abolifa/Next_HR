@@ -17,7 +17,7 @@ class DocumentResource extends Resource
     public static ?string $label = 'مستند';
     public static ?string $pluralLabel = 'المستندات';
     protected static ?string $model = Document::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'bxs-file';
 
     /**
      * @throws Exception

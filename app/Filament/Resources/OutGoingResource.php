@@ -20,7 +20,7 @@ class OutGoingResource extends Resource
     public static ?string $label = 'رسالة';
     public static ?string $pluralLabel = 'البريد الصادر';
     protected static ?string $model = OutGoing::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-document-arrow-up';
 
     public static function form(Form $form): Form
     {
@@ -128,6 +128,8 @@ class OutGoingResource extends Resource
                                 Forms\Components\FileUpload::make('attachments')
                                     ->label('المرفقات')
                                     ->multiple()
+                                    ->directory('outgoing-attachments')
+                                    ->disk('public')
                                     ->acceptedFileTypes([
                                         'application/pdf',
                                         'image/jpeg',
@@ -139,7 +141,7 @@ class OutGoingResource extends Resource
                         Forms\Components\Group::make([
                             Forms\Components\Section::make('المعاينة')
                                 ->schema([
-                                    Forms\Components\View::make('filament.previews.outgoing-preview')
+                                    Forms\Components\View::make('filament.outgoing.preview')
                                         ->reactive()
                                         ->viewData(fn(callable $get) => [
                                             'issue_number' => $get('number') ?? '',
@@ -152,11 +154,11 @@ class OutGoingResource extends Resource
                                         ]),
                                 ])
                                 ->extraAttributes([
-                                    'style' => 'position: sticky; top: 0px; max-height: calc(100vh - 1rem); overflow-y: hidden;'
+                                    'style' => 'position: sticky; top: 0px; max-height: calc(100vh - 2rem); overflow-y: hidden;'
                                 ]),
                         ]),
                     ])
-                    ->columns(2)
+                    ->columns()
                     ->columnSpanFull(),
             ]);
     }
@@ -222,13 +224,10 @@ class OutGoingResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\Action::make('view_attachments')
-                    ->label('عرض المستندات')
+                Tables\Actions\Action::make('view_letter')
+                    ->label('عرض الخطاب')
                     ->icon('heroicon-o-eye')
-                    ->url(fn($record) => static::getUrl('view-attachments', [
-                        'record' => $record,
-                        'with_main' => $record->type === 'letter',
-                    ])),
+                    ->url(fn(OutGoing $record) => static::getUrl('view-letter', ['record' => $record])),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ]);
@@ -247,7 +246,7 @@ class OutGoingResource extends Resource
             'index' => Pages\ListOutGoings::route('/'),
             'create' => Pages\CreateOutGoing::route('/create'),
             'edit' => Pages\EditOutGoing::route('/{record}/edit'),
-            'view-attachments' => Pages\ViewAttachements::route('/{record}/attachments'),
+            'view-letter' => Pages\ViewLetter::route('/{record}/view-letter'),
         ];
     }
 }
