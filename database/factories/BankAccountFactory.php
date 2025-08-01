@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\BankAccount;
+use App\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +19,7 @@ class BankAccountFactory extends Factory
     public function definition(): array
     {
         return [
+            'company_id' => Company::factory(),
             'bank_name' => $this->faker->company . ' Bank',
             'branch_name' => $this->faker->city,
             'account_number' => $this->faker->unique()->iban(),

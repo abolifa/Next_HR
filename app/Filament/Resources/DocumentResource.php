@@ -273,7 +273,6 @@ class DocumentResource extends Resource
             'create' => Pages\CreateDocument::route('/create'),
             'edit' => Pages\EditDocument::route('/{record}/edit'),
             'view-attachments' => Pages\ViewAttachments::route('/{record}/attachments'),
-
         ];
     }
 }

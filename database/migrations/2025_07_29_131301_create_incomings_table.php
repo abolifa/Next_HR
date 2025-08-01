@@ -10,14 +10,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('bank_accounts', function (Blueprint $table) {
+        Schema::create('incomings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();
-            $table->string('bank_name')->nullable();
-            $table->string('branch_name')->nullable();
-            $table->string('account_number')->unique();
-            $table->enum('account_type', ['general', 'credit_card', 'other'])->default('general');
-            $table->enum('currency', ['LYD', 'USD', 'EUR', 'AED'])->default('LYD');
+            $table->string('subject')->nullable();
+            $table->string('from')->nullable();
+            $table->string('number')->nullable()->unique();
+            $table->json('attachments')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('bank_accounts');
+        Schema::dropIfExists('incomings');
     }
 };

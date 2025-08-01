@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Filament\Resources\DocumentResource\Pages;
+namespace App\Filament\Resources\IncomingResource\Pages;
 
-use App\Filament\Resources\DocumentResource;
-use App\Models\Document;
+use App\Filament\Resources\IncomingResource;
+use App\Models\Incoming;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\Page;
 
 class ViewAttachments extends Page
 {
-    protected static string $resource = DocumentResource::class;
-    protected static string $view = 'filament.pages.view-attachment';
+    protected static string $resource = IncomingResource::class;
+    protected static string $view = 'filament.pages.view-outgoing-attachment';
     protected static ?string $title = 'عرض المرفقات';
-    public ?Document $document = null;
+    public ?Incoming $document = null;
 
     public function mount($record): void
     {
-        $this->document = Document::findOrFail($record);
+        $this->document = Incoming::findOrFail($record);
     }
 
 
@@ -26,7 +26,7 @@ class ViewAttachments extends Page
             Action::make('back')
                 ->label('')
                 ->icon('heroicon-o-arrow-left')
-                ->url(DocumentResource::getUrl()),
+                ->url(IncomingResource::getUrl()),
         ];
     }
 }

@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
 
         Company::factory(10)
             ->has(Document::factory()->count(3))
+            ->has(BankAccount::factory()->count(2))
             ->create();
-        BankAccount::factory(10)->create();
     }
 }
