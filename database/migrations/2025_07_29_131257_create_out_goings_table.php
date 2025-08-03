@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->json('attachments')->nullable();
             $table->date('date')->nullable();
             $table->string('number')->nullable();
+            $table->string('ceo')->nullable();
             $table->timestamps();
         });
     }

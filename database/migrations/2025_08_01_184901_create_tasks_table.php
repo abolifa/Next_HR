@@ -14,14 +14,14 @@ return new class extends Migration {
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->enum('priority', ['low', 'medium', 'high'])->default('medium');
-            $table->enum('status', ['pending', 'in_progress', 'completed', 'cancelled'])->default('pending');
-            $table->date('due_date')->nullable();
-            $table->foreignId('company_id')->nullable()->constrained()->nullOnDelete();
-            $table->enum('target_mode', ['manual', 'role', 'company', 'company_role'])->default('manual');
-            $table->enum('target_role', ['employee', 'accountant', 'driver', 'manager', 'sales', 'hr', 'supervisor'])->nullable(); // only if `target_mode` is `role` or `company_role`
-            $table->boolean('for_all_company_employees')->default(false);
-            $table->foreignId('created_by_employee_id')->nullable()->constrained('employees')->nullOnDelete();
+            $table->enum('priority', ['low', 'medium', 'high', 'urgent'])->default('medium');
+            $table->enum('status', ['in_progress', 'completed', 'cancelled'])->default('in_progress');
+            $table->date('due_date');
+            $table->enum('target_mode', ['manual', 'role', 'company'])->default('manual');
+            $table->enum('target_role', ['employee', 'accountant', 'driver', 'manager', 'sales', 'hr', 'supervisor'])->nullable();
+            $table->foreignId('company_id')->nullable()->constrained('companies')->nullOnDelete();
+            $table->boolean('for_all')->default(false);
+            $table->json('attachments')->nullable();
             $table->timestamps();
         });
     }

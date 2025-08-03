@@ -16,7 +16,10 @@ class CompanyResource extends Resource
     public static ?string $label = 'شركة';
     public static ?string $pluralLabel = 'الشركات';
     protected static ?string $model = Company::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'fas-building-ngo';
+
+    protected static ?string $navigationGroup = 'الموارد';
+
 
     public static function form(Form $form): Form
     {
@@ -167,6 +170,7 @@ class CompanyResource extends Resource
                     ->falseIcon('heroicon-o-x')
                     ->trueColor('success')
                     ->falseColor('danger')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable()
                     ->alignCenter(),
                 Tables\Columns\TextColumn::make('created_at')

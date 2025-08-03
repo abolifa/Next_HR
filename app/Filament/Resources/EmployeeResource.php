@@ -16,6 +16,12 @@ class EmployeeResource extends Resource
 
     protected static ?string $navigationIcon = 'fas-users';
 
+    protected static ?string $label = 'موظف';
+    protected static ?string $pluralLabel = 'الموظفين';
+
+    protected static ?string $navigationGroup = 'الموارد';
+
+
     public static function form(Form $form): Form
     {
         return $form
@@ -32,7 +38,7 @@ class EmployeeResource extends Resource
                         ->visibility('public'),
                     Forms\Components\Select::make('company_id')
                         ->label('الشركة')
-                        ->relationship('company', 'id')
+                        ->relationship('company', 'arabic_name')
                         ->required(),
                     Forms\Components\TextInput::make('name')
                         ->label('الاسم')
@@ -96,27 +102,79 @@ class EmployeeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('company.id')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label('الاسم')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('company.arabic_name')
+                    ->label('الشركة')
+                    ->searchable()
+                    ->badge()
+                    ->color('rose')
+                    ->alignCenter()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('phone')
+                    ->label('الهاتف')
+                    ->alignCenter()
+                    ->sortable()
+                    ->searchable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label('البريد')
+                    ->alignCenter()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('license')
+                    ->label('الرخصة')
+                    ->alignCenter()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('address')
+                    ->label('العنوان')
+                    ->alignCenter()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('gender'),
-                Tables\Columns\TextColumn::make('date_of_birth')
-                    ->date()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('marital_status'),
-                Tables\Columns\TextColumn::make('role'),
-                Tables\Columns\TextColumn::make('photo')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('gender')
+                    ->label('الجنس')
+                    ->alignCenter()
+                    ->badge()
+                    ->color(fn($state) => match ($state) {
+                        'male' => 'success',
+                        'female' => 'rose',
+                    })
+                    ->formatStateUsing(fn($state) => match ($state) {
+                        'male' => 'ذكر',
+                        'female' => 'أنثى',
+                    }),
+//                Tables\Columns\TextColumn::make('date_of_birth')
+//                    ->label('تاريخ الميلاد')
+//                    ->date('d/m/Y')
+//                    ->alignCenter()
+//                    ->sortable(),
+//                Tables\Columns\TextColumn::make('marital_status')
+//                    ->label('الحالة الاجتماعية')
+//                    ->alignCenter()
+//                    ->formatStateUsing(fn($state) => match ($state) {
+//                        'single' => 'أعزب',
+//                        'married' => 'متزوج',
+//                    }),
+                Tables\Columns\TextColumn::make('role')
+                    ->label('الدور الوظيفي')
+                    ->formatStateUsing(fn($state) => match ($state) {
+                        'employee' => 'موطف',
+                        'accountant' => 'محاسب',
+                        'driver' => 'سائق',
+                        'manager' => 'مدير',
+                        'sales' => 'مندوب مبيعات',
+                        'hr' => 'موارد بشرية',
+                        'supervisor' => 'مشرف',
+                    })->badge()
+                    ->alignCenter()
+                    ->color(fn($state) => match ($state) {
+                        'employee' => 'primary',
+                        'accountant' => 'success',
+                        'driver' => 'warning',
+                        'manager' => 'danger',
+                        'sales' => 'info',
+                        'hr' => 'rose',
+                        'supervisor' => 'cyan',
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -130,6 +188,7 @@ class EmployeeResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

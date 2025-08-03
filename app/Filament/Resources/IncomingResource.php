@@ -19,6 +19,8 @@ class IncomingResource extends Resource
     protected static ?string $model = Incoming::class;
     protected static ?string $navigationIcon = 'heroicon-s-document-arrow-down';
 
+    protected static ?string $navigationGroup = 'الأرشيف';
+
     public static function form(Form $form): Form
     {
         return $form

@@ -19,6 +19,8 @@ class DocumentResource extends Resource
     protected static ?string $model = Document::class;
     protected static ?string $navigationIcon = 'bxs-file';
 
+    protected static ?string $navigationGroup = 'الأرشيف';
+
     /**
      * @throws Exception
      */

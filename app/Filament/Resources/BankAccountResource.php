@@ -17,6 +17,8 @@ class BankAccountResource extends Resource
     protected static ?string $model = BankAccount::class;
     protected static ?string $navigationIcon = 'bxs-bank';
 
+    protected static ?string $navigationGroup = 'المصارف';
+
     public static function form(Form $form): Form
     {
         return $form

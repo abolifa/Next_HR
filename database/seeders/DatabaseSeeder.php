@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\BankAccount;
 use App\Models\Company;
 use App\Models\Document;
+use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -17,16 +18,39 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'admin@gmail.com',
         ]);
 
-        Company::factory(10)
-            ->has(Document::factory()->count(3))
-            ->has(BankAccount::factory()->count(2))
-            ->create();
+        Company::factory()
+            ->count(10)
+            ->create()
+            ->each(function ($company) {
+                // Employees
+                $company->employees()->createMany(
+                    Employee::factory()
+                        ->count(10)
+                        ->make(['company_id' => $company->id])
+                        ->each(fn($e) => $e->makeVisible('password'))
+                        ->toArray()
+                );
+
+                // Documents
+                $company->documents()->createMany(
+                    Document::factory()
+                        ->count(10)
+                        ->make(['company_id' => $company->id])
+                        ->toArray()
+                );
+
+                // Bank Accounts
+                $company->bankAccounts()->createMany(
+                    BankAccount::factory()
+                        ->count(5)
+                        ->make(['company_id' => $company->id])
+                        ->toArray()
+                );
+            });
     }
 }

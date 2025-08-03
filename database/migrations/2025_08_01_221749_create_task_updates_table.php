@@ -10,8 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('out_goings', function (Blueprint $table) {
-            $table->string('ceo')->nullable();
+        Schema::create('task_updates', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('task_id')->constrained('tasks')->onDelete('cascade');
+            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -20,8 +23,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('out_goings', function (Blueprint $table) {
-            $table->dropColumn('ceo');
-        });
+        Schema::dropIfExists('task_updates');
     }
 };

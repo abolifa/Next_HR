@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('employee_task', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('task_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('employee_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('task_id')->constrained('tasks')->cascadeOnDelete();
+            $table->foreignId('employee_id')->constrained('employees')->cascadeOnDelete();
             $table->enum('status', ['assigned', 'in_progress', 'done'])->default('assigned');
             $table->timestamps();
             $table->unique(['task_id', 'employee_id']);

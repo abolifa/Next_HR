@@ -20,22 +20,20 @@ class Task extends Model
         'priority',
         'status',
         'due_date',
-        'company_id',
         'target_mode',
         'target_role',
-        'for_all_company_employees',
-        'created_by_employee_id',
+        'target_company_ids',
+        'for_all',
+        'attachments',
+        'company_id',
     ];
 
-    public function company(): BelongsTo
-    {
-        return $this->belongsTo(Company::class);
-    }
+    protected $casts = [
+        'due_date' => 'datetime',
+        'target_company_ids' => 'array',
+        'attachments' => 'array',
+    ];
 
-    public function createdBy(): BelongsTo
-    {
-        return $this->belongsTo(Employee::class, 'created_by_employee_id');
-    }
 
     public function employees(): BelongsToMany
     {
@@ -44,8 +42,31 @@ class Task extends Model
             ->withPivot('status');
     }
 
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
+
     public function comments(): HasMany
     {
         return $this->hasMany(TaskComment::class);
+    }
+
+    public function assignedEmployees()
+    {
+        return $this->belongsToMany(Employee::class, 'employee_task')
+            ->wherePivot('status', 'assigned');
+    }
+
+    public function inProgressEmployees()
+    {
+        return $this->belongsToMany(Employee::class, 'employee_task')
+            ->wherePivot('status', 'in_progress');
+    }
+
+    public function doneEmployees()
+    {
+        return $this->belongsToMany(Employee::class, 'employee_task')
+            ->wherePivot('status', 'done');
     }
 }

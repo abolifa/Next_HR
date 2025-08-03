@@ -25,8 +25,6 @@ class CompanyFactory extends Factory
             'phone' => $this->faker->phoneNumber(),
             'address' => $this->faker->address(),
             'website' => $this->faker->url(),
-            'logo' => $this->faker->imageUrl(200, 200, 'company', true, 'logo'),
-            'letterhead' => $this->faker->imageUrl(800, 200, 'letterhead'),
             'ceo_name' => $this->faker->name(),
         ];
     }

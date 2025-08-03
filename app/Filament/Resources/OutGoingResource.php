@@ -22,6 +22,9 @@ class OutGoingResource extends Resource
     protected static ?string $model = OutGoing::class;
     protected static ?string $navigationIcon = 'heroicon-s-document-arrow-up';
 
+    protected static ?string $navigationGroup = 'الأرشيف';
+
+
     public static function form(Form $form): Form
     {
         return $form
